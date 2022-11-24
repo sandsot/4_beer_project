@@ -1,0 +1,72 @@
+{% extends "community/base.html" %}
+{% load django_bootstrap5 %}
+{% block content %}
+    {% bootstrap_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
+    <div class="container-lg">
+        <div style="padding:15px;"></div>
+        <h1>Event 리스트</h1>
+        <div style="padding:15px;"></div>
+
+        {% for events in pagenated_event_qu %}
+
+            <div class="card" style="width: 80rem;">
+                <a href="{{ events.pk }}/">
+                    <img src="{{ events.image.url }}" class="card-img-top" alt="등록한 이벤트 이미지입니다" height="400">
+                </a>
+                <div class="card-body">
+                    <div style="padding:15px;"></div>
+                    <h2 class="card-title"> {{ events.title }}</h2>
+                    <div style="padding:15px;"></div>
+                    <h4 class="card-text">{{ events.content }}</h4>
+                    <a href="{{ events.pk }}/"><button class="btn btn-success" style="float: right" >게시글 읽기</button></a>
+                </div>
+            </div>
+            <div style="padding:20px;"></div>
+        {% endfor %}
+        <div style="padding:20px;">
+        </div>
+    </div>
+    <hr>
+    <!-- 페이징처리 시작 -->
+    <ul class="pagination justify-content-center">
+        <!-- 이전페이지 -->
+        {% if pagenated_event_qu.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ pagenated_event_qu.previous_page_number }}">이전</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+            </li>
+        {% endif %}
+        <!-- 페이지리스트 -->
+        {% for page_number in pagenated_event_qu.paginator.page_range %}
+            {% if page_number == pagenated_event_qu.number %}
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                </li>
+            {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if pagenated_event_qu.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ pagenated_event_qu.next_page_number }}">다음</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+            </li>
+        {% endif %}
+    </ul>
+    <!-- 페이징처리 끝 -->
+    <footer class="blog-footer" style="text-align: center" >
+        <a href="/community/event" style="text-decoration-line: none;">Back to top</a>
+    </footer>
+
+{% endblock %}

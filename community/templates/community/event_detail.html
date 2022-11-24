@@ -1,0 +1,22 @@
+{% extends "community/base.html" %}
+{% load django_bootstrap5 %}
+{% block content %}
+    {% bootstrap_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
+    <div class="container-lg">
+        <div style="padding:15px;"></div>
+        <a href="/community/event/"><button class="btn btn-success" style="float: right" >이벤트 목록</button></a>
+        <div style="padding:15px;"></div>
+        <h2>{{ events.title }}</h2>
+        <div style="padding:10px;"></div>
+        <small style="float: right;">작성일시: {{ events.created_at }}</small>
+        {# image 필드에 저장된 파일이 있다면 #}
+        {% if events.image %}
+            <img src="{{ events.image.url }}" class="img-fluid" width="1270">
+        {% endif %}
+    </div>
+    <p>{{ events.content }}</p>
+    <div style="padding:10px;"></div>
+    </hr>
+{% endblock %}

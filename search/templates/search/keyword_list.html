@@ -1,0 +1,42 @@
+{% extends 'search/base.html' %}
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
+
+<style>
+    table, th, td {
+    }
+    td {
+        text-align: center;
+    }
+</style>
+{% block content %}
+    <div class='row'>
+        <div class='col-sm-9'>
+            <form action="" method="get" class="form-search d-flex align-items-stretch mb-3 aos-init aos-animate">
+                <input type="text" class="form-control" name="search" placeholder={{ search }}>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            {% if not beer_list %}
+
+                <h3>검색 결과가 없습니다! 다른 키워드를 검색해 보는 건 어떠세요? </h3>
+
+            {% else %}
+                <h3>{{ search }}에 대한 검색 결과</h3>
+                <hr style="line: solid 10px black;">
+                {% for beer in beer_list %}
+                    <h4><a href="/search/beerprofile/{{ beer.id }}/">{{ beer.name }}</a></h4>
+                    <h6>맥주 스타일: {{ beer.kind }}</h6>
+                    <h6>양조장 이름: {{ beer.brewery }}</h6>
+                    <h6>제조 국가: {{ beer.country }}</h6>
+                    <hr style="line: solid 10px black;">
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class='col-sm-3'>
+
+
+        </div>
+    </div>
+{% endblock %}
